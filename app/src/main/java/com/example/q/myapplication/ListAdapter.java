@@ -1,11 +1,13 @@
 package com.example.q.myapplication;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 
@@ -17,18 +19,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder>{
     {
         public TextView name_View;
         public TextView num_View;
+        public ImageView photo_view;
         public MyViewHolder(View view)
         {
             super(view);
             name_View = (TextView) view.findViewById(R.id.name);
             num_View = (TextView) view.findViewById(R.id.number);
+            photo_view = (ImageView) view.findViewById(R.id.photo);
         }
     }
 
     public ListAdapter(ArrayList<item> contactList)
     {
         this.contactList = contactList;
-        Log.d("test point",String.valueOf(contactList.size()));
+      //  Log.d("test point",String.valueOf(contactList.size()));
     }
 
     @Override
@@ -44,6 +48,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder>{
     {
         holder.name_View.setText(contactList.get(position).getName());
         holder.num_View.setText(contactList.get(position).getNumber());
+        //holder.photo_view.setImageBitmap(contactList.get(position).getPhoto());
+        holder.photo_view.setImageResource(contactList.get(position).getPhoto());
     }
 
    @Override

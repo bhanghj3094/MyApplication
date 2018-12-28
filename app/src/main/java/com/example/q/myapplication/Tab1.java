@@ -1,8 +1,10 @@
 package com.example.q.myapplication;
 
 import android.Manifest;
+import android.content.ContentUris;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
@@ -12,23 +14,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import java.io.InputStream;
 import java.util.ArrayList;
 
-import static android.content.Context.TELEPHONY_SERVICE;
-import static android.support.v4.content.ContextCompat.getSystemService;
-
 public class Tab1  extends Fragment {
-    public TextView outputText;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,7 +43,6 @@ public class Tab1  extends Fragment {
             ArrayList<item> arrayList = new ArrayList<item>();
             arrayList = GetList();
             //Log.d("STATE",String.valueOf(arrayList.size()));
-            GetList();
             RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.ContactView);
             recyclerView.setHasFixedSize(true);
             ListAdapter listAdapter = new ListAdapter(arrayList);
@@ -63,9 +56,11 @@ public class Tab1  extends Fragment {
     }
     private ArrayList<item> GetList(){
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+
         String[] projection = new String[] {
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
         };
 
         String[] selectionArgs = null;
@@ -80,10 +75,28 @@ public class Tab1  extends Fragment {
 
         if(contactCursor.moveToFirst()){
             do{
-                persons.add(new item(contactCursor.getString(1) , contactCursor.getString(0)));
+                item temp = new item(contactCursor.getString(1) , contactCursor.getString(0));
+                //persons.add(new item(contactCursor.getString(1) , contactCursor.getString(0)));
+                Uri photo_uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,Long.valueOf(contactCursor.getString(2)));
+                InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContext().getContentResolver(),photo_uri);
+                if(input==null)
+                {
+                    temp.setPhoto(R.drawable.ic_action_name);
+                    Log.d("Don't have photo",contactCursor.getString(1));
+                }
+                else
+                {
+                    Log.d("Have photo","aa");
+                    //temp.setPhoto(input.);
+                }
+                //Log.d("photo file",contactCursor.getString(2));
+                persons.add(temp);
             }while(contactCursor.moveToNext());
         }
 
-      return persons;
+        return persons;
     }
 }
+
+
+
