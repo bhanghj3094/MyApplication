@@ -77,17 +77,6 @@ public class MainActivity extends AppCompatActivity {//activity를 상속해야 
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
    //deleted PlaceholderFragment class from here
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
