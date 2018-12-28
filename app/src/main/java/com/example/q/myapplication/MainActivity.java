@@ -1,8 +1,12 @@
 package com.example.q.myapplication;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -13,11 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {//activity를 상속해야 사용자 인터페이스 화면을 관리할 수 있다
     /**
@@ -52,6 +51,14 @@ public class MainActivity extends AppCompatActivity {//activity를 상속해야 
         setContentView(R.layout.activity_main);//R.layout.main은 R클래스 내에 작성되어 있는 정적 클래스의 정적 변수를 가리킨다. R 클래스는 안드로이드 빌드 시스템에 의해 자동적으로 생성되는 자바 클래스
         //리소스를 효율적으로 접근할 수 있도록 리소스를 int값으로 관리하는 역할
         //static으로 선언되었기 때문에 별도의 객체 생성 필요 없음
+
+        // 권한 허가 요청
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+            // pass with true;
+        } else {
+            // request for permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 1);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
