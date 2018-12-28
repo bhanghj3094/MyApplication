@@ -19,7 +19,17 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {//activity를 상속해야 사용자 인터페이스 화면을 관리할 수 있다
+    /**
+     * 액티비티의 특징
+     * 액티비티의 크기는 상태바 영역을 제외한 화면 전체로 고정
+     * 두개의 액티비티를 동시에 보여줄 수 없다
+     * 다른 application의 액티비티를 불러낼 수 있다
+     * 액티비티 내에는 fragment를 추가하여 화면을 분할하여 별도로 조작할 수 있다
+     *
+     * 액티비티의 life cycle
+     * onCreate() -> onStart() -> onResume() -> 액티비티 실행 -> onPause() -> onStop() -> onDestroy()
+     */
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);//R.layout.main은 R클래스 내에 작성되어 있는 정적 클래스의 정적 변수를 가리킨다. R 클래스는 안드로이드 빌드 시스템에 의해 자동적으로 생성되는 자바 클래스
+        //리소스를 효율적으로 접근할 수 있도록 리소스를 int값으로 관리하는 역할
+        //static으로 선언되었기 때문에 별도의 객체 생성 필요 없음
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
