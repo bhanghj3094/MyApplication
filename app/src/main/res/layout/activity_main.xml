@@ -14,7 +14,7 @@
     ListView는 아이템들을 리스트 형식으로 보여주는 컨테이너
     스크롤 지원, 레이아웃 모양 변경 가능, 특화된 ListActivity 제공
     ListView는 AdapterView를 상속하고 있어 여러 기능 처리 가능
-    AdapterView에는 아이템을 클릭했을 때 처리하기 위한 다양한 리스터 인터페이서가 선언되어 있다-->
+    AdapterView에는 아이템을 클릭했을 때 처리하기 위한 다양한 리스너 인터페이서가 선언되어 있다-->
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
