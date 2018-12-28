@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {//activity를 상속해야 
      * onCreate() -> onStart() -> onResume() -> 액티비티 실행 -> onPause() -> onStop() -> onDestroy()
      */
 
+    /* testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest */
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
