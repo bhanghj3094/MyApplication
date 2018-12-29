@@ -16,23 +16,11 @@
         android:gravity="center"
         android:text="Contacts Information" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ContactView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_below="@+id/textView"
-        android:gravity="center"
-        android:text="TextView" />
-
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="42dp" />
 
 </RelativeLayout>
