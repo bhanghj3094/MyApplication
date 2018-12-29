@@ -48,7 +48,7 @@ public class Tab2  extends Fragment {
         }
 
         public int getCount() {
-            return mThumbIds.length;
+            return 0;
         }
 
         public Object getItem(int position) {
