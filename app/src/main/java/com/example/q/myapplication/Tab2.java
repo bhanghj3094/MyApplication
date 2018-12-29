@@ -23,7 +23,6 @@ public class Tab2  extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("wrong", "start onCreateView");
         View rootView = inflater.inflate(R.layout.tab2, container, false);
 
         GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
@@ -36,7 +35,6 @@ public class Tab2  extends Fragment {
                 // 여기에 새로운 Activity 띄워서 만들기.
             }
         });
-        Log.d("wrong", "----------------------------- end --------------------------");
         return rootView;
     }
 
