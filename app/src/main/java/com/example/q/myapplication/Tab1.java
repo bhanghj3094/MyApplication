@@ -29,6 +29,8 @@ public class Tab1  extends Fragment {
 
         View rootView = inflater.inflate(R.layout.tab1, container, false);
         // 권한 허가 요청
+
+
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             // pass with true;
         } else {
@@ -85,7 +87,7 @@ public class Tab1  extends Fragment {
                     Log.d("Don't have photo",contactCursor.getString(1));
                 }
                 else
-                {
+                {;
                     Log.d("Have photo","aa");
                    // temp.setPhoto(contactCursor.getInt(3));
                 }
@@ -93,10 +95,7 @@ public class Tab1  extends Fragment {
                 persons.add(temp);
             }while(contactCursor.moveToNext());
         }
-
         return persons;
     }
 }
-//aaaaaaaaaaaaaaaaaaa
-
 

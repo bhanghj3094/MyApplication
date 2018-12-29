@@ -1,17 +1,169 @@
 package com.example.q.myapplication;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class Tab3  extends Fragment {
+public class Tab3  extends Fragment implements View.OnClickListener {
+    private Button[][] buttons = new Button[3][3];
+    private boolean player1Turn = true;
+    private int roundCount;
+    private int player1Points;
+    private int player2Points;
+
+    private TextView textViewPlayer1;
+    private TextView textViewPlayer2;
+
+    @Override
+    public void onClick(View v)
+    {
+        if(!((Button)v).getText().toString().equals(""))
+        {
+            return;
+        }
+        if(player1Turn)
+        {
+            ((Button)v).setText("X");
+        }
+        else
+        {
+            ((Button)v).setText("O");
+        }
+        roundCount++;
+        if(checkForWin())
+        {
+            if(player1Turn)
+            {
+                player1Wins();
+            } else
+            {
+                player2Wins();
+            }
+        } else if(roundCount==9)
+        {
+            draw();
+        } else
+        {
+            player1Turn = !player1Turn;
+        }
+    }
+
+    private boolean checkForWin(){
+        String[][] field = new String[3][3];
+        for(int i = 0 ; i < 3 ; i++)
+        {
+            for(int j = 0 ; j <3;j++)
+            {
+                field[i][j]=buttons[i][j].getText().toString();
+            }
+        }
+        for(int i = 0 ; i < 3 ; i++)
+        {
+           if(field[i][0].equals(field[i][1])&&field[i][0].equals(field[i][2])&&!field[i][0].equals(""))
+           {
+               return true;
+           }
+        }
+        for(int i = 0 ; i < 3 ; i++)
+        {
+            if(field[0][i].equals(field[1][i])&&field[0][i].equals(field[2][i])&&!field[0][i].equals(""))
+            {
+                return true;
+            }
+        }
+        if(field[0][0].equals(field[1][1])&&field[0][0].equals(field[2][2])&&!field[0][0].equals(""))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void player1Wins(){
+        player1Points++;
+        Toast.makeText(getContext(),"Player 1 Wins!",Toast.LENGTH_SHORT).show();
+        updatePointsText();
+        resetBoard();
+    }
+    private void player2Wins(){
+        player2Points++;
+        Toast.makeText(getContext(),"Player 2 Wins!",Toast.LENGTH_SHORT).show();
+        updatePointsText();
+        resetBoard();
+    }
+    private void draw(){
+        Toast.makeText(getContext(),"Draw!",Toast.LENGTH_SHORT).show();
+        resetBoard();
+    }
+    private void updatePointsText()
+    {
+        textViewPlayer1.setText("Player 1: " + player1Points);
+        textViewPlayer2.setText("Player 2: " + player2Points);
+    }
+    private void resetBoard()
+    {
+        for(int i = 0 ; i < 3 ; i++)
+        {
+            for(int j = 0 ; j < 3 ; j++)
+            {
+               buttons[i][j].setText("");
+            }
+        }
+        roundCount=0;
+        player1Turn = true;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d("yeeelin","onSave");
+        super.onSaveInstanceState(outState);
+        Log.d("yeeelin","onSave");
+        outState.putInt("roundCount",roundCount);
+        outState.putInt("player1points",player1Points);
+        outState.putInt("player2points",player2Points);
+        outState.putBoolean("player1Turn",player1Turn);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            if(savedInstanceState!=null) {
+                roundCount = savedInstanceState.getInt("roundCount");
+                player1Points = savedInstanceState.getInt("player1points");
+                player2Points = savedInstanceState.getInt("player2points");
+                player1Turn = savedInstanceState.getBoolean("player1Turn");
+                return;
+            }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.tab3, container, false);
+        textViewPlayer1 = rootView.findViewById(R.id.text_view_p1);
+        textViewPlayer2 = rootView.findViewById(R.id.text_view_p2);
+        for(int i = 0 ; i < 3 ; i++)
+        {
+            for(int j = 0 ; j < 3 ; j++)
+            {
+                String buttonID = "button_" + i+ (j+1);
+                int resID = getResources().getIdentifier(buttonID,"id",getActivity().getPackageName());
+                buttons[i][j]=rootView.findViewById(resID);
+                buttons[i][j].setOnClickListener(this);
+            }
+        }
+
+//        Button buttonReset = rootView.findViewById(R.id.button_reset);
+//        buttonReset.setOnClickListener(new View.onClickListenr())
+//        {
+//
+//        }
         return rootView;
     }
 }
