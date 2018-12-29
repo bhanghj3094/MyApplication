@@ -25,11 +25,9 @@ public class Tab2  extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("wrong", "start onCreateView");
         View rootView = inflater.inflate(R.layout.tab2, container, false);
-        Log.d("wrong", "initialize rootView");
+
         GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
-        Log.d("wrong", "get gridview from rootview");
         gridview.setAdapter(new ImageAdapter(rootView.getContext()));
-        Log.d("wrong", "done setting adapter");
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
