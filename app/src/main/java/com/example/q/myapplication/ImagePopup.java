@@ -1,18 +1,20 @@
 package com.example.q.myapplication;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
-public class ImagePopup extends Activity implements View.OnClickListener {
+public class ImagePopup extends FragmentActivity implements View.OnClickListener {
     private Context mContext = null;
     private final int imgWidth = 320;
     private final int imgHeight = 372;
@@ -45,9 +47,12 @@ public class ImagePopup extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btn_back:
-                Intent intent = new Intent(mContext, Tab2.class);
-                startActivity(intent);
-                break;
+//                Intent intent = new Intent(mContext, MainActivity.class);
+//                startActivity(intent);
+                Fragment mFragment = null;
+                mFragment = new Tab2();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, mFragment).commit();
         }
     }
 

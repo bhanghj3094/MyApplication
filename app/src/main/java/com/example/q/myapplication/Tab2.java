@@ -107,7 +107,6 @@ public class Tab2 extends Fragment {
             Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
             Bitmap resized = Bitmap.createScaledBitmap(bmp, 120, 120, true);
             imageView.setImageBitmap(resized);
-            //imageView.setImageResource(mThumbIds[position]);
             return imageView;
         }
 
