@@ -48,8 +48,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder>{
     {
         holder.name_View.setText(contactList.get(position).getName());
         holder.num_View.setText(contactList.get(position).getNumber());
-        //holder.photo_view.setImageBitmap(contactList.get(position).getPhoto());
-        holder.photo_view.setImageResource(contactList.get(position).getPhoto());
+        holder.photo_view.setImageBitmap(contactList.get(position).getPhoto());
     }
 
    @Override

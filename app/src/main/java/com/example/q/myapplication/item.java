@@ -5,8 +5,7 @@ import android.graphics.Bitmap;
 public class item {
     private String name;
     private String number;
-   // private Bitmap photo;
-    private int photo;
+    private Bitmap photo;
 
     public item(String name,String number)
     {
@@ -22,11 +21,11 @@ public class item {
         return number;
     }
 
-    public int getPhoto() {
-        return photo;
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
     }
 
-    public void setPhoto(int photo) {
-        this.photo = photo;
+    public Bitmap getPhoto() {
+        return photo;
     }
 }

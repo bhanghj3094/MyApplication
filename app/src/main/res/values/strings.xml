@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
+    <string name="tab_text_1">Contact</string>
+    <string name="tab_text_2">Gallery</string>
+    <string name="tab_text_3">Tic Tac Toe</string>
     <string name="player1">Player 1 : 0</string>
     <string name="player2">Player 2 : 0</string>
     <string name="reset">Reset</string>

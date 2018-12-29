@@ -1,5 +1,6 @@
 package com.example.q.myapplication;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,7 @@ public class Tab3  extends Fragment implements View.OnClickListener {
     private int roundCount;
     private int player1Points;
     private int player2Points;
-
+    MediaPlayer mediaPlayer;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
 
@@ -82,18 +83,24 @@ public class Tab3  extends Fragment implements View.OnClickListener {
         {
             return true;
         }
+        if(field[0][2].equals(field[1][1])&&field[1][1].equals(field[2][0])&&!field[0][2].equals(""))
+        {
+            return true;
+        }
         return false;
     }
 
     private void player1Wins(){
         player1Points++;
         Toast.makeText(getContext(),"Player 1 Wins!",Toast.LENGTH_SHORT).show();
+        clap();
         updatePointsText();
         resetBoard();
     }
     private void player2Wins(){
         player2Points++;
         Toast.makeText(getContext(),"Player 2 Wins!",Toast.LENGTH_SHORT).show();
+        clap();
         updatePointsText();
         resetBoard();
     }
@@ -121,9 +128,7 @@ public class Tab3  extends Fragment implements View.OnClickListener {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        Log.d("yeeelin","onSave");
         super.onSaveInstanceState(outState);
-        Log.d("yeeelin","onSave");
         outState.putInt("roundCount",roundCount);
         outState.putInt("player1points",player1Points);
         outState.putInt("player2points",player2Points);
@@ -137,10 +142,13 @@ public class Tab3  extends Fragment implements View.OnClickListener {
                 player1Points = savedInstanceState.getInt("player1points");
                 player2Points = savedInstanceState.getInt("player2points");
                 player1Turn = savedInstanceState.getBoolean("player1Turn");
-                return;
             }
     }
-
+    public void clap()
+    {
+        mediaPlayer = MediaPlayer.create(getContext(),R.raw.clap);
+        mediaPlayer.start();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -159,11 +167,6 @@ public class Tab3  extends Fragment implements View.OnClickListener {
             }
         }
 
-//        Button buttonReset = rootView.findViewById(R.id.button_reset);
-//        buttonReset.setOnClickListener(new View.onClickListenr())
-//        {
-//
-//        }
         return rootView;
     }
 }

@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -78,20 +80,18 @@ public class Tab1  extends Fragment {
         if(contactCursor.moveToFirst()){
             do{
                 item temp = new item(contactCursor.getString(1) , contactCursor.getString(0));
-                //persons.add(new item(contactCursor.getString(1) , contactCursor.getString(0)));
-                Uri photo_uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,Long.valueOf(contactCursor.getString(2)));
+                Uri photo_uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,contactCursor.getLong(2));
                 InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContext().getContentResolver(),photo_uri);
+
                 if(input==null)
                 {
-                    temp.setPhoto(R.drawable.ic_action_name);
+                    temp.setPhoto(BitmapFactory.decodeResource(getContext().getResources(),R.drawable.ic_action_name));
                     Log.d("Don't have photo",contactCursor.getString(1));
                 }
                 else
-                {;
-                    Log.d("Have photo","aa");
-                   // temp.setPhoto(contactCursor.getInt(3));
+                {
+                   temp.setPhoto(BitmapFactory.decodeStream(input));
                 }
-                //Log.d("photo file",contactCursor.getString(2));
                 persons.add(temp);
             }while(contactCursor.moveToNext());
         }
