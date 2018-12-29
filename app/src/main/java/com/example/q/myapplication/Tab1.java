@@ -87,7 +87,7 @@ public class Tab1  extends Fragment {
                 else
                 {
                     Log.d("Have photo","aa");
-                    //temp.setPhoto(input.);
+                   // temp.setPhoto(contactCursor.getInt(3));
                 }
                 //Log.d("photo file",contactCursor.getString(2));
                 persons.add(temp);
