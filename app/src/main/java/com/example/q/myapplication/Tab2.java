@@ -35,6 +35,7 @@ public class Tab2  extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Toast.makeText(getActivity(), "This is my Toast message!", Toast.LENGTH_SHORT).show();
+                // 여기에 새로운 Activity 띄워서 만들기.
             }
         });
         Log.d("wrong", "----------------------------- end --------------------------");
@@ -49,7 +50,7 @@ public class Tab2  extends Fragment {
         }
 
         public int getCount() {
-            return 3;
+            return mThumbIds.length;
         }
 
         public Object getItem(int position) {
@@ -65,6 +66,7 @@ public class Tab2  extends Fragment {
             if (convertView == null) { // not recycled
                 imageView = new ImageView(mContext);
                 imageView.setLayoutParams(new ViewGroup.LayoutParams(600,600));
+                imageView.setAdjustViewBounds(false);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(8, 8, 8, 8);
             } else {
@@ -78,12 +80,12 @@ public class Tab2  extends Fragment {
         // reference to images
         public Integer[] mThumbIds = {
                 R.drawable.baby, R.drawable.bag,
-                R.drawable.boat, R.drawable.camera,
+                R.drawable.boat, R.drawable.road,
                 R.drawable.chicken, R.drawable.dog,
                 R.drawable.lake, R.drawable.lamp,
                 R.drawable.leaf, R.drawable.ritual,
-                R.drawable.road, R.drawable.road,
-                R.drawable.sea, R.drawable.squirrel
+                R.drawable.road, //R.drawable.camera,
+                //R.drawable.sea, R.drawable.squirrel
         };
     }
 
