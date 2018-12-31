@@ -134,6 +134,7 @@ public class Tab3  extends Fragment implements View.OnClickListener {
         outState.putInt("player2points",player2Points);
         outState.putBoolean("player1Turn",player1Turn);
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
@@ -152,7 +153,6 @@ public class Tab3  extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.tab3, container, false);
         textViewPlayer1 = rootView.findViewById(R.id.text_view_p1);
         textViewPlayer2 = rootView.findViewById(R.id.text_view_p2);

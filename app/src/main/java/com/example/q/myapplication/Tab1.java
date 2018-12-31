@@ -2,8 +2,10 @@ package com.example.q.myapplication;
 
 import android.Manifest;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -18,21 +20,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import android.widget.Button;
 
-public class Tab1  extends Fragment {
+public class Tab1  extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.tab1, container, false);
         // 권한 허가 요청
-
-
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             // pass with true;
         } else {
@@ -56,6 +54,18 @@ public class Tab1  extends Fragment {
             recyclerView.setAdapter(listAdapter);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
+        Button add = rootView.findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("loog","ok");
+                Intent addContact = new Intent(ContactsContract.Intents.Insert.ACTION);
+                Log.d("loog","okk");
+                addContact.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+                Log.d("loog","okkk");
+                startActivity(addContact);
+            }
+        });
         return rootView;
     }
     private ArrayList<item> GetList(){
@@ -90,12 +100,15 @@ public class Tab1  extends Fragment {
                 }
                 else
                 {
-                   temp.setPhoto(BitmapFactory.decodeStream(input));
+                    Bitmap bmp = BitmapFactory.decodeStream(input);
+                    Bitmap resized = Bitmap.createScaledBitmap(bmp, 20, 20, true);
+                   temp.setPhoto(resized);
                 }
                 persons.add(temp);
             }while(contactCursor.moveToNext());
         }
         return persons;
     }
+
 }
 
