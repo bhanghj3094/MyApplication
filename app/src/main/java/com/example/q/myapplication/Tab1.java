@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.io.InputStream;
 import java.util.ArrayList;
-import android.widget.Button;
+import android.support.design.widget.Snackbar;
 
 public class Tab1  extends Fragment{
     @Override
@@ -54,16 +55,16 @@ public class Tab1  extends Fragment{
             recyclerView.setAdapter(listAdapter);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
-        Button add = rootView.findViewById(R.id.add);
+        FloatingActionButton add = (FloatingActionButton) rootView.findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("loog","ok");
                 Intent addContact = new Intent(ContactsContract.Intents.Insert.ACTION);
-                Log.d("loog","okk");
                 addContact.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-                Log.d("loog","okkk");
                 startActivity(addContact);
+                Snackbar.make(v, "Add New Contact", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
             }
         });
         return rootView;
@@ -100,9 +101,7 @@ public class Tab1  extends Fragment{
                 }
                 else
                 {
-                    Bitmap bmp = BitmapFactory.decodeStream(input);
-                    Bitmap resized = Bitmap.createScaledBitmap(bmp, 20, 20, true);
-                   temp.setPhoto(resized);
+                   temp.setPhoto(Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 50, 50, true));
                 }
                 persons.add(temp);
             }while(contactCursor.moveToNext());
