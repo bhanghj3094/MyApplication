@@ -41,7 +41,7 @@ public class Tab2 extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
 
-        GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
+        GridView gridview = rootView.findViewById(R.id.gridview);
         final ImageAdapter ia = new ImageAdapter(rootView.getContext());
         gridview.setAdapter(ia);
 
@@ -57,8 +57,8 @@ public class Tab2 extends Fragment {
 
     public class ImageAdapter extends BaseAdapter {
         private Context mContext;
-        private String imgData;
-        private String geoData;
+        private String imgData = null;
+        private String geoData = null;
         private ArrayList<String> thumbsDataList;
         private ArrayList<String> thumbsIDList;
 
@@ -113,30 +113,24 @@ public class Tab2 extends Fragment {
         private void getThumbInfo(ArrayList<String> thumbsIDs, ArrayList<String> thumbsDatas){
             String[] proj = {MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DISPLAY_NAME,
-                    MediaStore.Images.Media.SIZE};
+                    MediaStore.Images.Media.DISPLAY_NAME};
 
             Cursor imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, null, null, null);
 
             if (imageCursor != null && imageCursor.moveToLast()){
-                String title;
                 String thumbsID;
                 String thumbsImageID;
                 String thumbsData;
-                String data;
-                String imgSize;
 
                 int thumbsIDCol = imageCursor.getColumnIndex(MediaStore.Images.Media._ID);
                 int thumbsDataCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
                 int thumbsImageIDCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
-                int thumbsSizeCol = imageCursor.getColumnIndex(MediaStore.Images.Media.SIZE);
                 int num = 0;
                 do {
                     thumbsID = imageCursor.getString(thumbsIDCol);
                     thumbsData = imageCursor.getString(thumbsDataCol);
                     thumbsImageID = imageCursor.getString(thumbsImageIDCol);
-                    imgSize = imageCursor.getString(thumbsSizeCol);
                     num++;
                     if (thumbsImageID != null){
                         thumbsIDs.add(thumbsID);

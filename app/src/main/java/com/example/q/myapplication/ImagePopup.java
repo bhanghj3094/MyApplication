@@ -40,20 +40,13 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
         photoView.setImageBitmap(resized);
 
         // button for return
-        Button btn = (Button)findViewById(R.id.btn_back);
+        Button btn = findViewById(R.id.btn_back);
         btn.setOnClickListener(this);
     }
 
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btn_back:
-//                Intent intent = new Intent(mContext, MainActivity.class);
-//                startActivity(intent);
-                /*
-                Fragment mFragment = new Tab2(); //getSupportFragmentManager().beginTransaction().show(tab2);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, mFragment, "tagTab2").commit();
-                */
                 finish();
         }
     }
