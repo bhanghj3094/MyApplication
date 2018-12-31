@@ -49,10 +49,12 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
             case R.id.btn_back:
 //                Intent intent = new Intent(mContext, MainActivity.class);
 //                startActivity(intent);
-                Fragment mFragment = null;
-                mFragment = new Tab2();
+                /*
+                Fragment mFragment = new Tab2(); //getSupportFragmentManager().beginTransaction().show(tab2);
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, mFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, mFragment, "tagTab2").commit();
+                */
+                finish();
         }
     }
 
