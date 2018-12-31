@@ -25,10 +25,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Tab2 extends Fragment {
+    private Cursor imageCursor = null;
+    public Cursor getSomeVariable() {
+        return imageCursor;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setRetainInstance(false);
     }
 
     @Override
@@ -144,7 +149,7 @@ public class Tab2 extends Fragment {
                     }
                 }while (imageCursor.moveToPrevious());
             }
-            imageCursor.close();
+            //imageCursor.close();
             return;
         }
 
@@ -154,7 +159,7 @@ public class Tab2 extends Fragment {
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
                     MediaStore.Images.Media.SIZE};
-            Cursor imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, "_ID='"+ thumbID +"'", null, null);
 
             if (imageCursor != null && imageCursor.moveToFirst()){
@@ -163,7 +168,7 @@ public class Tab2 extends Fragment {
                     imageDataPath = imageCursor.getString(imgData);
                 }
             }
-            imageCursor.close();
+            //imageCursor.close();
             return imageDataPath;
         }
     }
