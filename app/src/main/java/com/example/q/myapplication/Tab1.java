@@ -26,19 +26,53 @@ import java.util.ArrayList;
 import android.support.design.widget.Snackbar;
 
 public class Tab1  extends Fragment{
+    View rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.tab1, container, false);
-        // request for permission
+        rootView = inflater.inflate(R.layout.tab1, container, false);
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, 1);
-        } else {
-            ArrayList<item> arrayList = new ArrayList<item>();
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
+        }
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_DENIED) {
+                ArrayList<item> arrayList;
+                arrayList = GetList();
+                RecyclerView recyclerView = rootView.findViewById(R.id.ContactView);
+                recyclerView.setHasFixedSize(true);
+                ListAdapter listAdapter = new ListAdapter(arrayList);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.scrollToPosition(0);
+                recyclerView.setAdapter(listAdapter);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+            }
+            FloatingActionButton add = rootView.findViewById(R.id.add);
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent addContact = new Intent(ContactsContract.Intents.Insert.ACTION);
+                    addContact.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+                    startActivity(addContact);
+                    Snackbar.make(v, "Add New Contact", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                }
+            });
+            Log.d("cheeck","on create tab1 finished");
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("cheeck","on resume tab1");
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_DENIED) {
+            ArrayList<item> arrayList;
             arrayList = GetList();
-            //Log.d("STATE",String.valueOf(arrayList.size()));
-            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.ContactView);
+            RecyclerView recyclerView = rootView.findViewById(R.id.ContactView);
             recyclerView.setHasFixedSize(true);
             ListAdapter listAdapter = new ListAdapter(arrayList);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -47,20 +81,8 @@ public class Tab1  extends Fragment{
             recyclerView.setAdapter(listAdapter);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
-        FloatingActionButton add = (FloatingActionButton) rootView.findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addContact = new Intent(ContactsContract.Intents.Insert.ACTION);
-                addContact.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-                startActivity(addContact);
-                Snackbar.make(v, "Add New Contact", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });
-        return rootView;
     }
+
     private ArrayList<item> GetList(){
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 

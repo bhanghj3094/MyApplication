@@ -25,34 +25,41 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Tab2 extends Fragment {
+    View rootView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume()
+    {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            GridView gridview = rootView.findViewById(R.id.gridview);
+            final ImageAdapter ia = new ImageAdapter(rootView.getContext());
+            gridview.setAdapter(ia);
+        }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab2, container, false);
-        Log.d("wrong", "start Tab2 onCreateView");
-        // 권한 허가 요청
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        rootView = inflater.inflate(R.layout.tab2, container, false);
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
         }
-        GridView gridview = rootView.findViewById(R.id.gridview);
-        final ImageAdapter ia = new ImageAdapter(rootView.getContext());
-        gridview.setAdapter(ia);
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Log.d("wrong", "into the setOnItemClickListener");
-                ia.callImageViewer(position);
-            }
-        });
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            GridView gridview = rootView.findViewById(R.id.gridview);
+            final ImageAdapter ia = new ImageAdapter(rootView.getContext());
+            gridview.setAdapter(ia);
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+                    ia.callImageViewer(position);
+                }
+            });
+        }
         return rootView;
     }
-
     public class ImageAdapter extends BaseAdapter {
         private Context mContext;
         private String imgData = null;
