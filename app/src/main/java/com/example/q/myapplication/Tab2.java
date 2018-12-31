@@ -40,11 +40,9 @@ public class Tab2 extends Fragment {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
-
         GridView gridview = rootView.findViewById(R.id.gridview);
         final ImageAdapter ia = new ImageAdapter(rootView.getContext());
         gridview.setAdapter(ia);
-
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {

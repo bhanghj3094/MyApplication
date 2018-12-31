@@ -31,18 +31,10 @@ public class Tab1  extends Fragment{
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.tab1, container, false);
-        // 권한 허가 요청
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            // pass with true;
-        } else {
-            // request for permission
+        // request for permission
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, 1);
-        }
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS)==PackageManager.PERMISSION_DENIED)
-        {
-
-        }
-        else {
+        } else {
             ArrayList<item> arrayList = new ArrayList<item>();
             arrayList = GetList();
             //Log.d("STATE",String.valueOf(arrayList.size()));
