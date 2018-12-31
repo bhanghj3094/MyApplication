@@ -37,6 +37,7 @@ public class Tab2 extends Fragment {
             gridview.setAdapter(ia);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
