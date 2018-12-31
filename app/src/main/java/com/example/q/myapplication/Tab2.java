@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 
 public class Tab2 extends Fragment {
     View rootView;
+    String imgname = null;
 
     @Override
     public void onResume()
@@ -61,6 +61,7 @@ public class Tab2 extends Fragment {
         }
         return rootView;
     }
+
     public class ImageAdapter extends BaseAdapter {
         private Context mContext;
         private String imgData = null;
@@ -78,8 +79,9 @@ public class Tab2 extends Fragment {
         public final void callImageViewer(int selectedIndex) {
             Intent i = new Intent(mContext, ImagePopup.class);
             String imgPath = getImageInfo(imgData, geoData, thumbsIDList.get(selectedIndex));
-            i.putExtra("filename", imgPath);
-            Toast.makeText(getActivity(), "This is my Toast message! \n: " + imgPath, Toast.LENGTH_SHORT).show();
+            i.putExtra("filename", imgname);
+            i.putExtra("filepath", imgPath);
+            Toast.makeText(getActivity(), "This is my Toast message! : " + imgPath + "\nname! : " + imgname, Toast.LENGTH_SHORT).show();
             startActivity(i);
         }
 
@@ -150,6 +152,7 @@ public class Tab2 extends Fragment {
 
         private String getImageInfo(String ImageData, String Location, String thumbID){
             String imageDataPath = null;
+
             String[] proj = {MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
@@ -160,7 +163,9 @@ public class Tab2 extends Fragment {
             if (imageCursor != null && imageCursor.moveToFirst()){
                 if (imageCursor.getCount() > 0){
                     int imgData = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                    int imageName = imageCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
                     imageDataPath = imageCursor.getString(imgData);
+                    imgname = imageCursor.getString(imageName);
                 }
             }
             //imageCursor.close();
