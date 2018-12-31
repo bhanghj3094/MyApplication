@@ -36,7 +36,7 @@ public class Tab2 extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab2, container, false);
         Log.d("wrong", "start Tab2 onCreateView");
-        // 권한 허가 요청
+        // ask for permission if none
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
