@@ -39,17 +39,18 @@ public class Tab2 extends Fragment {
         // ask for permission if none
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        } else {
+            GridView gridview = rootView.findViewById(R.id.gridview);
+            final ImageAdapter ia = new ImageAdapter(rootView.getContext());
+            gridview.setAdapter(ia);
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+                    Log.d("wrong", "into the setOnItemClickListener");
+                    ia.callImageViewer(position);
+                }
+            });
         }
-        GridView gridview = rootView.findViewById(R.id.gridview);
-        final ImageAdapter ia = new ImageAdapter(rootView.getContext());
-        gridview.setAdapter(ia);
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Log.d("wrong", "into the setOnItemClickListener");
-                ia.callImageViewer(position);
-            }
-        });
         return rootView;
     }
 
