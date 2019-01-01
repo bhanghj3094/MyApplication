@@ -23,16 +23,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder>{
         public MyViewHolder(View view)
         {
             super(view);
-            name_View = (TextView) view.findViewById(R.id.name);
-            num_View = (TextView) view.findViewById(R.id.number);
-            photo_view = (ImageView) view.findViewById(R.id.photo);
+            name_View = view.findViewById(R.id.name);
+            num_View =  view.findViewById(R.id.number);
+            photo_view =  view.findViewById(R.id.photo);
         }
     }
 
     public ListAdapter(ArrayList<item> contactList)
     {
         this.contactList = contactList;
-      //  Log.d("test point",String.valueOf(contactList.size()));
     }
 
     @Override
@@ -43,7 +42,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder>{
         return vh;
     }
 
-
+    @Override
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         holder.name_View.setText(contactList.get(position).getName());
@@ -55,5 +54,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder>{
     public int getItemCount()
     {
         return contactList.size();
+    }
+
+    public void filterList(ArrayList<item> filteredList) {
+        contactList = filteredList;
+        notifyDataSetChanged();
     }
 }

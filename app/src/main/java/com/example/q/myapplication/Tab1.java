@@ -10,13 +10,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,16 @@ import android.view.ViewGroup;
 import java.io.InputStream;
 import java.util.ArrayList;
 import android.support.design.widget.Snackbar;
+import android.widget.EditText;
 
 public class Tab1  extends Fragment{
     View rootView;
+    EditText editText;
+    private ArrayList<item> arrayList;
+    private ArrayList<item> filteredList;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    ListAdapter listAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,16 +46,25 @@ public class Tab1  extends Fragment{
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_DENIED) {
-                ArrayList<item> arrayList;
                 arrayList = GetList();
-                RecyclerView recyclerView = rootView.findViewById(R.id.ContactView);
-                recyclerView.setHasFixedSize(true);
-                ListAdapter listAdapter = new ListAdapter(arrayList);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.scrollToPosition(0);
-                recyclerView.setAdapter(listAdapter);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                buildRecyclerView();
+                editText = rootView.findViewById(R.id.search);
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                       filter(s.toString());
+                    }
+                });
             }
             FloatingActionButton add = rootView.findViewById(R.id.add);
             add.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +78,6 @@ public class Tab1  extends Fragment{
 
                 }
             });
-            Log.d("cheeck","on create tab1 finished");
         return rootView;
     }
 
@@ -123,5 +139,32 @@ public class Tab1  extends Fragment{
         return persons;
     }
 
+
+    private void filter(String text)
+    {
+       filteredList = new ArrayList<>();
+        for(item i : arrayList)
+        {
+            if(i.getName().toLowerCase().contains(text.toLowerCase()) || i.getNumber().toLowerCase().contains(text.toLowerCase()))
+            {
+                filteredList.add(i);
+            }
+        }
+        Log.d("checkk",String.valueOf(filteredList.size()));
+        listAdapter.filterList(filteredList);
+        recyclerView.setAdapter(listAdapter);
+    }
+
+    private void buildRecyclerView()
+    {
+        recyclerView = rootView.findViewById(R.id.ContactView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
+        listAdapter = new ListAdapter(arrayList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.scrollToPosition(0);
+        recyclerView.setAdapter(listAdapter);
+       // recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
 }
 
