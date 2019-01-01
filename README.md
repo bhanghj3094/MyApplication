@@ -1,6 +1,6 @@
-##My Application
+## My Application
 
-####KAIST 18' WINTER
+#### KAIST 18' WINTER
 
 CS496 스타트업과 집중 프로그래밍 캠프 - 1주차
 
@@ -9,7 +9,7 @@ CS496 스타트업과 집중 프로그래밍 캠프 - 1주차
 공통과제I : 탭 구조를 활용한 안드로이드 앱 제작
 
 ----------------------------
-#####Tab1 : 'Contacts'
+##### Tab1 : 'Contacts'
 
 "Build my own contacts"
 
@@ -19,7 +19,7 @@ CS496 스타트업과 집중 프로그래밍 캠프 - 1주차
 
 ```editText```를 활용하여 검색기능 또한 구현하였습니다. 연락처 추가를 하고 싶은 경우에는 Floating Action Button을 통해 구현된 Add 버튼을 클릭하면 연락처 추가를 할 수 있습니다.
 
-#####Tab2 : 'Gallery'
+##### Tab2 : 'Gallery'
 
 "See, Share, Edit Your Image"
 
@@ -28,7 +28,7 @@ CS496 스타트업과 집중 프로그래밍 캠프 - 1주차
 빠르게 갤러리 내부의 이미지를 구현하기 위해 화질을 ```Bitmap```으로 낮추어서 ```GridView```로 나타내었습니다. 고화질의 사진을 보고 싶다면 갤러리 내부에서 사진을 클릭하면 새로 ```ImagePopup``` 클래스를 통해 Activity를 불러 고화질의 사진을 나타냅니다. 이 클래스 안에 3가지 버튼을 통해 다시 갤러리에 있는 사진 목록으로 돌아가거나, 이미지를 공유하거나, 원하는 대로 잘라 핸드폰 내부 저장소 안의 ㄴ```"/CROPPED_IMAGE"``` 폴더에 저장할 수 있습니다.
 
 
-#####Tab3 : 'Tic Tac Toe'
+##### Tab3 : 'Tic Tac Toe'
 
 "Play, and Enjoy"
 
