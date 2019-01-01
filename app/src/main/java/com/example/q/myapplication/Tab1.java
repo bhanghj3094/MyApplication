@@ -23,12 +23,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import java.io.InputStream;
 import java.util.ArrayList;
 import android.support.design.widget.Snackbar;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class Tab1  extends Fragment{
@@ -70,6 +72,33 @@ public class Tab1  extends Fragment{
                        filter(s.toString());
                     }
                 });
+            rootView.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                        Log.d("asdf","aa");
+                        hideKeyboard(v);
+                    return false;
+                }
+            });
+            editText.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d("asdf","aa");
+                    hideKeyboard(v);
+                    return false;
+                }
+            });
+            recyclerView.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d("asdf","aa");
+                    hideKeyboard(v);
+                    return false;
+                }
+            });
             }
             FloatingActionButton add = rootView.findViewById(R.id.add);
             add.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +208,11 @@ public class Tab1  extends Fragment{
         }
         Log.d("checkk",s);
         return s;
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
 

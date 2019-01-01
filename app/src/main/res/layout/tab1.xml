@@ -29,6 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_toRightOf="@id/search_image"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:padding="10dp" />
 
             <ImageView

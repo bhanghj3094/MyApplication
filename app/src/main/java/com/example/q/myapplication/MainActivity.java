@@ -3,7 +3,6 @@ package com.example.q.myapplication;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,13 +14,12 @@ import android.view.Menu;
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("cheeck","main on Create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -37,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         Log.d("cheeck","on create finished");
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -55,11 +52,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
            switch(position){
                case 0 :
-                   Log.d("cheeck","tab1 created");
                    Tab1 tab1 = new Tab1();
                    return tab1;
                case 1 :
-                   Log.d("cheeck","tab2 created");
                    Tab2 tab2 = new Tab2();
                    return tab2;
                case 2 :
@@ -75,20 +70,6 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             // Show 3 total pages.
             return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position)
-        {
-            switch(position){
-                case 0 :
-                    return "SECTION 1";
-                case 1 :
-                    return "SECTION 2";
-                case 2 :
-                    return "SECTRION 3";
-            }
-            return null;
         }
     }
 }
