@@ -152,19 +152,18 @@ public class Tab1  extends Fragment{
         }
         Log.d("checkk",String.valueOf(filteredList.size()));
         listAdapter.filterList(filteredList);
-        recyclerView.setAdapter(listAdapter);
+       recyclerView.setAdapter(listAdapter);
     }
 
     private void buildRecyclerView()
     {
         recyclerView = rootView.findViewById(R.id.ContactView);
-        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         listAdapter = new ListAdapter(arrayList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.scrollToPosition(0);
         recyclerView.setAdapter(listAdapter);
-       // recyclerView.setItemAnimator(new DefaultItemAnimator());
+       recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 }
 
