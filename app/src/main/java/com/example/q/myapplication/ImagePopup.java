@@ -6,11 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.FileProvider;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.core.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +23,6 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
     private Context mContext = null;
     private final int imgWidth = 320;
     private final int imgHeight = 372;
-    String imgName = null;
-    String imgPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +34,11 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
         /* transmitted message */
         Intent i = getIntent();
         Bundle extras = i.getExtras();
-        imgPath = extras.getString("filepath");
-        imgName = extras.getString("filename");
+        final String imgPath = extras.getString("filepath");
+        final String imgName = extras.getString("filename");
 
         /* show completed image */
-        PhotoView photoView = (PhotoView) findViewById(R.id.photo_view);
+        PhotoView photoView = findViewById(R.id.photoView);
         BitmapFactory.Options bfo = new BitmapFactory.Options();
         bfo.inSampleSize = 2;
         Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
@@ -50,11 +46,11 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
         photoView.setImageBitmap(resized);
 
         // button for return
-        Button btn = findViewById(R.id.btn_back);
-        btn.setOnClickListener(this);
+        Button buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(this);
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonShare = (Button) findViewById(R.id.buttonShare);
+        buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("wrong", "onClick of setOnClickListener");
@@ -76,12 +72,30 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
                 startActivity(Intent.createChooser(intent, "Choose")); // bring up sharing activity
             }
         });
+
+        Button buttonEditor = findViewById(R.id.buttonEditor);
+        buttonEditor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] parseDirectory = imgPath.split("/");
+                String directory = TextUtils.join("/", Arrays.copyOfRange(parseDirectory, 0, parseDirectory.length - 1));
+
+                File file = new File(directory, imgName); // 파일 경로 설정 + imgName 은 파일 이름
+                Uri uri = FileProvider.getUriForFile(mContext, "com.bignerdranch.android.test.fileprovider", file);
+
+                Intent i = new Intent(mContext, EditorActivity.class);
+                i.putExtra("filename", imgName);
+                i.putExtra("filedirectory", directory);
+                i.putExtra(i.EXTRA_STREAM, uri);
+                startActivity(i);
+            }
+        });
         Log.d("wrong", "successful in ImagePopup onCreate");
     }
 
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.btn_back:
+            case R.id.buttonBack:
                 finish();
         }
     }

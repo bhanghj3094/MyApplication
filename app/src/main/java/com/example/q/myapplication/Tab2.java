@@ -8,9 +8,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +24,14 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.ArrayList;
 
-public class Tab2 extends Fragment {
+public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshListener {
     View rootView;
     String imgname = null;
+//    private SwipeRefreshLayout swipeContainer;
 
     @Override
     public void onResume()
@@ -35,6 +41,12 @@ public class Tab2 extends Fragment {
             GridView gridview = rootView.findViewById(R.id.gridview);
             final ImageAdapter ia = new ImageAdapter(rootView.getContext());
             gridview.setAdapter(ia);
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+                    ia.callImageViewer(position);
+                }
+            });
         }
     }
 
@@ -59,8 +71,29 @@ public class Tab2 extends Fragment {
                 }
             });
         }
+//        swipeContainer = getActivity().findViewById(R.id.swipeContainer);
+//        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_orange_light,
+//                android.R.color.holo_red_light);
+//        swipeContainer.setOnRefreshListener(this);
         return rootView;
     }
+
+//    @Override
+//    public void onRefresh() {
+//        Log.d("wrong", "into the on Refresh");
+//        GridView gridview = rootView.findViewById(R.id.gridview);
+//        final ImageAdapter ia = new ImageAdapter(rootView.getContext());
+//        gridview.setAdapter(ia);
+//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    int position, long id) {
+//                ia.callImageViewer(position);
+//            }
+//        });
+//        swipeContainer.setRefreshing(false);
+//    }
 
     public class ImageAdapter extends BaseAdapter {
         private Context mContext;
@@ -81,7 +114,7 @@ public class Tab2 extends Fragment {
             String imgPath = getImageInfo(imgData, geoData, thumbsIDList.get(selectedIndex));
             i.putExtra("filename", imgname);
             i.putExtra("filepath", imgPath);
-            Toast.makeText(getActivity(), "This is my Toast message! : " + imgPath + "\nname! : " + imgname, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "imagepath : " + imgPath + "\nimage name : " + imgname + "!", Toast.LENGTH_SHORT).show();
             startActivity(i);
         }
 
@@ -113,7 +146,7 @@ public class Tab2 extends Fragment {
             BitmapFactory.Options bo = new BitmapFactory.Options();
             bo.inSampleSize = 16;
             Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
-            Bitmap resized = Bitmap.createScaledBitmap(bmp, 120, 120, true);
+            Bitmap resized = Bitmap.createScaledBitmap(bmp, 150, 150, true);
             imageView.setImageBitmap(resized);
             return imageView;
         }
