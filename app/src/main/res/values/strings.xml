@@ -5,6 +5,8 @@
     <string name="tab_text_3">Tic Tac Toe</string>
     <string name="player1">Player 1 : 0</string>
     <string name="player2">Player 2 : 0</string>
+    <string name="turn1">Player 1 Turn</string>
+    <string name="turn2">Player 2 Turn</string>
     <string name="reset">Reset</string>
     <string name="add">Add Contact</string>
     <string name="section_format">Hello World from section: %1$d</string>
