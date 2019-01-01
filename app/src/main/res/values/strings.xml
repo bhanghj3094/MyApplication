@@ -10,4 +10,9 @@
     <string name="reset">Reset</string>
     <string name="add">Add Contact</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="back_to_list">back to list</string>
+    <string name="share">SHARE</string>
+    <string name="editor">EDITOR</string>
+    <string name="crop_image">CROP IMAGE</string>
+    <string name="save_image">SAVE IMAGE</string>
 </resources>
