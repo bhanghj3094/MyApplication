@@ -2,11 +2,14 @@ package com.example.q.myapplication;
 
 import android.Manifest;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +28,7 @@ import android.view.ViewGroup;
 import java.io.InputStream;
 import java.util.ArrayList;
 import android.support.design.widget.Snackbar;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 public class Tab1  extends Fragment{
@@ -39,6 +43,7 @@ public class Tab1  extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.tab1, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
         }
@@ -131,7 +136,7 @@ public class Tab1  extends Fragment{
                 }
                 else
                 {
-                   temp.setPhoto(Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 50, 50, true));
+                   temp.setPhoto(Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input), 100, 100, true));
                 }
                 persons.add(temp);
             }while(contactCursor.moveToNext());
