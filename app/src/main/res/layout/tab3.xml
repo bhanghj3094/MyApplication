@@ -13,6 +13,31 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/p2turn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/text_view_p2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_toStartOf="@+id/text_view_p1"
+            android:layout_toLeftOf="@+id/text_view_p1"
+            android:gravity="center"
+            android:text="Player 2 Turn"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/p1turn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/text_view_p2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:text="Player 1 Turn"
+            android:textSize="20sp" />
+
+        <TextView
             android:id="@+id/text_view_p1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +60,6 @@
             android:gravity="center"
             android:text="@string/player2"
             android:textSize="30sp" />
-
 
     </RelativeLayout>
 

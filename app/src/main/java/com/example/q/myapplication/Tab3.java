@@ -24,6 +24,8 @@ public class Tab3  extends Fragment implements View.OnClickListener {
     MediaPlayer mediaPlayer;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
+    private TextView turn1;
+    private TextView turn2;
 
     @Override
     public void onClick(View v)
@@ -35,10 +37,14 @@ public class Tab3  extends Fragment implements View.OnClickListener {
         if(player1Turn)
         {
             ((Button)v).setText("X");
+            turn1.setVisibility(View.INVISIBLE);
+            turn2.setVisibility(View.VISIBLE);
         }
         else
         {
             ((Button)v).setText("O");
+            turn1.setVisibility(View.VISIBLE);
+            turn2.setVisibility(View.INVISIBLE);
         }
         roundCount++;
         if(checkForWin())
@@ -127,6 +133,8 @@ public class Tab3  extends Fragment implements View.OnClickListener {
         }
         roundCount=0;
         player1Turn = true;
+        turn1.setVisibility(View.VISIBLE);
+        turn2.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -165,6 +173,9 @@ public class Tab3  extends Fragment implements View.OnClickListener {
         }
         textViewPlayer1 = rootView.findViewById(R.id.text_view_p1);
         textViewPlayer2 = rootView.findViewById(R.id.text_view_p2);
+        turn1 = rootView.findViewById(R.id.p1turn);
+        turn2 = rootView.findViewById(R.id.p2turn);
+
         for(int i = 0 ; i < 3 ; i++)
         {
             for(int j = 0 ; j < 3 ; j++)
