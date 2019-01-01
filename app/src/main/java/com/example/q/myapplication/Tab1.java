@@ -145,12 +145,11 @@ public class Tab1  extends Fragment{
        filteredList = new ArrayList<>();
         for(item i : arrayList)
         {
-            if(i.getName().toLowerCase().contains(text.toLowerCase()) || i.getNumber().toLowerCase().contains(text.toLowerCase()))
+            if(i.getName().toLowerCase().contains(text.toLowerCase()) || i.getNumber().toLowerCase().contains(text.toLowerCase()) || check(i.getNumber()).contains(check(text.toLowerCase())))
             {
                 filteredList.add(i);
             }
         }
-        Log.d("checkk",String.valueOf(filteredList.size()));
         listAdapter.filterList(filteredList);
        recyclerView.setAdapter(listAdapter);
     }
@@ -164,6 +163,17 @@ public class Tab1  extends Fragment{
         recyclerView.scrollToPosition(0);
         recyclerView.setAdapter(listAdapter);
        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private String check(String s)
+    {
+        s = s.toLowerCase();
+        if(s.contains("-"))
+        {
+           s = s.replaceAll("-","");
+        }
+        Log.d("checkk",s);
+        return s;
     }
 }
 
