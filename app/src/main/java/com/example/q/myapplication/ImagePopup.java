@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class ImagePopup extends FragmentActivity implements View.OnClickListener {
     private Context mContext = null;
@@ -54,20 +57,26 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("wrong", "onClick of setOnClickListener");
                 shareImage(); //공유 이미지 함수를 호출 합니다.
             }
 
             private void shareImage() {
-                File dirName = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Download");  //디렉토리를 지정합니다.
-                String filename = imgName; //공유할 이미지 파일 명
-                File file = new File(dirName, filename); //image 파일의 경로를 설정합니다.
-                Uri mSaveImageUri = Uri.fromFile(file); //file의 경로를 uri로 변경합니다.
-                Intent intent = new Intent(Intent.ACTION_SEND); //전송 메소드를 호출합니다. Intent.ACTION_SEND
-                intent.setType("image/jpg"); //jpg 이미지를 공유 하기 위해 Type을 정의합니다.
-                intent.putExtra(Intent.EXTRA_STREAM, mSaveImageUri); //사진의 Uri를 가지고 옵니다.
-                startActivity(Intent.createChooser(intent, "Choose")); //Activity를 이용하여 호출 합니다.
+                Log.d("wrong", "begin shareImage");
+                String[] parseDirectory = imgPath.split("/");
+                String directory = TextUtils.join("/", Arrays.copyOfRange(parseDirectory, 0, parseDirectory.length - 1));
+                Log.d("wrong", "directory: " + directory);
+                Log.d("wrong", "image name: " + imgName);
+
+                File file = new File(directory, imgName); // 파일 경로 설정 + imgName 은 파일 이름
+                Uri uri = FileProvider.getUriForFile(mContext, "com.bignerdranch.android.test.fileprovider", file);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("image/jpg"); // set jpg type
+                intent.putExtra(Intent.EXTRA_STREAM, uri); // put img w/ uri
+                startActivity(Intent.createChooser(intent, "Choose")); // bring up sharing activity
             }
         });
+        Log.d("wrong", "successful in ImagePopup onCreate");
     }
 
     public void onClick(View v) {
