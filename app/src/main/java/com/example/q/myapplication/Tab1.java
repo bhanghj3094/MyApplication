@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import com.google.android.material.snackbar.Snackbar;
 
-public class Tab1  extends Fragment{
+public class Tab1  extends Fragment {
     View rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
