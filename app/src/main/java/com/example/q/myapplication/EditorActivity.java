@@ -77,7 +77,7 @@ public class EditorActivity extends AppCompatActivity {
     public void onSaveImageClick(View view) {
         Log.d("wrong", "begin onSaveImageClick");
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/DCIM/CAMERA");
+        File myDir = new File(root + "/CROPED_IMAGES");
         if (!myDir.isDirectory()) {
             myDir.mkdirs();
         }

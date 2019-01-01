@@ -31,14 +31,15 @@ import java.util.ArrayList;
 public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshListener {
     View rootView;
     String imgname = null;
-//    private SwipeRefreshLayout swipeContainer;
+    private SwipeRefreshLayout swipeContainer;
+    GridView gridview;
 
     @Override
     public void onResume()
     {
         super.onResume();
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            GridView gridview = rootView.findViewById(R.id.gridview);
+            gridview = rootView.findViewById(R.id.gridview);
             final ImageAdapter ia = new ImageAdapter(rootView.getContext());
             gridview.setAdapter(ia);
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,6 +55,8 @@ public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.tab2, container, false);
+
+        GridView gridview = rootView.findViewById(R.id.gridview);
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
         }
@@ -61,7 +64,6 @@ public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshL
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            GridView gridview = rootView.findViewById(R.id.gridview);
             final ImageAdapter ia = new ImageAdapter(rootView.getContext());
             gridview.setAdapter(ia);
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,19 +73,21 @@ public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshL
                 }
             });
         }
+
 //        swipeContainer = getActivity().findViewById(R.id.swipeContainer);
 //        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
 //                android.R.color.holo_green_light,
 //                android.R.color.holo_orange_light,
 //                android.R.color.holo_red_light);
 //        swipeContainer.setOnRefreshListener(this);
+
         return rootView;
     }
 
 //    @Override
 //    public void onRefresh() {
 //        Log.d("wrong", "into the on Refresh");
-//        GridView gridview = rootView.findViewById(R.id.gridview);
+//        gridview.setAdapter(null);
 //        final ImageAdapter ia = new ImageAdapter(rootView.getContext());
 //        gridview.setAdapter(ia);
 //        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,6 +116,7 @@ public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshL
         public final void callImageViewer(int selectedIndex) {
             Intent i = new Intent(mContext, ImagePopup.class);
             String imgPath = getImageInfo(imgData, geoData, thumbsIDList.get(selectedIndex));
+
             i.putExtra("filename", imgname);
             i.putExtra("filepath", imgPath);
             Toast.makeText(getActivity(), "imagepath : " + imgPath + "\nimage name : " + imgname + "!", Toast.LENGTH_SHORT).show();
@@ -156,7 +161,7 @@ public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshL
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME};
 
-            Cursor imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            Cursor imageCursor = getActivity().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, null, null, null);
 
             if (imageCursor != null && imageCursor.moveToLast()){
@@ -190,7 +195,7 @@ public class Tab2 extends Fragment { // implements SwipeRefreshLayout.OnRefreshL
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
                     MediaStore.Images.Media.SIZE};
-            Cursor imageCursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            Cursor imageCursor = getActivity().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     proj, "_ID='"+ thumbID +"'", null, null);
 
             if (imageCursor != null && imageCursor.moveToFirst()){

@@ -42,8 +42,8 @@ public class ImagePopup extends FragmentActivity implements View.OnClickListener
         BitmapFactory.Options bfo = new BitmapFactory.Options();
         bfo.inSampleSize = 2;
         Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
-        Bitmap resized = Bitmap.createScaledBitmap(bm, imgWidth, imgHeight, true);
-        photoView.setImageBitmap(resized);
+        //Bitmap resized = Bitmap.createScaledBitmap(bm, imgWidth, imgHeight, true);
+        photoView.setImageBitmap(bm);
 
         // button for return
         Button buttonBack = findViewById(R.id.buttonBack);
