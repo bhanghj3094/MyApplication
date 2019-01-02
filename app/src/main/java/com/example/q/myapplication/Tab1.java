@@ -17,20 +17,36 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import com.google.android.material.snackbar.Snackbar;
 
 public class Tab1  extends Fragment {
     View rootView;
+    EditText editText;
+    private ArrayList<item> arrayList;
+    private ArrayList<item> filteredList;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    ListAdapter listAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.tab1, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1);
         }
@@ -38,29 +54,61 @@ public class Tab1  extends Fragment {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_DENIED) {
-                ArrayList<item> arrayList;
-                arrayList = GetList();
-                RecyclerView recyclerView = rootView.findViewById(R.id.ContactView);
-                recyclerView.setHasFixedSize(true);
-                ListAdapter listAdapter = new ListAdapter(arrayList);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.scrollToPosition(0);
-                recyclerView.setAdapter(listAdapter);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-            }
-            FloatingActionButton add = rootView.findViewById(R.id.add);
-            add.setOnClickListener(new View.OnClickListener() {
+            arrayList = GetList();
+            buildRecyclerView();
+            editText = rootView.findViewById(R.id.search);
+            editText.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void onClick(View v) {
-                    Intent addContact = new Intent(ContactsContract.Intents.Insert.ACTION);
-                    addContact.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-                    startActivity(addContact);
-                    Snackbar.make(v, "Add New Contact", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    filter(s.toString());
                 }
             });
+
+            rootView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d("asdf","aa");
+                    hideKeyboard(v);
+                    return false;
+                }
+            });
+
+            editText.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d("asdf","aa");
+                    hideKeyboard(v);
+                    return false;
+                }
+            });
+
+            recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d("asdf","aa");
+                    hideKeyboard(v);
+                    return false;
+                }
+            });
+        }
+
+        FloatingActionButton add = rootView.findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addContact = new Intent(ContactsContract.Intents.Insert.ACTION);
+                addContact.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+                startActivity(addContact);
+                Snackbar.make(v, "Add New Contact", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
             Log.d("cheeck","on create tab1 finished");
         return rootView;
     }
@@ -123,5 +171,45 @@ public class Tab1  extends Fragment {
         return persons;
     }
 
+    private void filter(String text)
+    {
+        filteredList = new ArrayList<>();
+        for(item i : arrayList)
+        {
+            if(i.getName().toLowerCase().contains(text.toLowerCase()) || i.getNumber().toLowerCase().contains(text.toLowerCase()) || check(i.getNumber()).contains(check(text.toLowerCase())))
+            {
+                filteredList.add(i);
+            }
+        }
+        listAdapter.filterList(filteredList);
+        recyclerView.setAdapter(listAdapter);
+    }
+
+    private void buildRecyclerView()
+    {
+        recyclerView = rootView.findViewById(R.id.ContactView);
+        layoutManager = new LinearLayoutManager(getActivity());
+        listAdapter = new ListAdapter(arrayList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.scrollToPosition(0);
+        recyclerView.setAdapter(listAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private String check(String s)
+    {
+        s = s.toLowerCase();
+        if(s.contains("-"))
+        {
+            s = s.replaceAll("-","");
+        }
+        Log.d("checkk",s);
+        return s;
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
 
